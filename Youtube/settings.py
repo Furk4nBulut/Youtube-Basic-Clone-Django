@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'Youtube.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'DB',
+        'NAME': 'Youtube_DB_Project',
         'USER': 'furkan',
         'PASSWORD': '123456',
         'HOST': 'localhost',

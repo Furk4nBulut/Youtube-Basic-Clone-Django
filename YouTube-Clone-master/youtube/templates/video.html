@@ -1,0 +1,73 @@
+{% extends "parent.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+Video
+{% endblock %}
+
+
+	<!-- video_area -->
+
+	{% block body %}
+	<div class="video_area">
+		<div class="ad_area">
+      <video width="640" height="350" controls>
+          <source src="{{ video.path }}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      
+      <h1>{{ video.title }}</h1>
+      <h6 style='color:grey'><i>{{ video.number_of_views }} views</i></h6>
+      <h6 style='color:grey'><i>Published on {{video.datetime}}</i></h6>
+      <hr>
+
+      <!-- Like / Dislike Buttons -->
+        {% if user.is_authenticated %}
+            {% if likes %}
+                <a class="btn btn-default" href="{% url 'video_like' v_id=video.id u_id=user.id %}"><span class="glyphicon glyphicon-thumbs-up"> {{ likes_count }}</span></a>
+            {% else %}
+                <a class="btn btn-default" href="{% url 'video_unlike' v_id=video.id u_id=user.id %}"><span style = "color:blue" class="glyphicon glyphicon-thumbs-up"> {{ likes_count }} </span></a>
+            {% endif %}
+
+            {% if dislikes %}
+                <a class="btn btn-default" href="{% url 'video_dislike' v_id=video.id u_id=user.id %}"><span class="glyphicon glyphicon-thumbs-down"> {{ dislikes_count }}</span></a>
+            {% else %}
+                <a class="btn btn-default" href="{% url 'video_undislike' v_id=video.id u_id=user.id %}"><span style = "color:blue" class="glyphicon glyphicon-thumbs-down"> {{ dislikes_count }}</span></a>
+            {% endif %}
+
+        {% else %}
+            <p style='color:grey'>{{ likes_count }} likes | {{ dislikes_count }} dislikes</p>
+        {% endif %}
+
+      <hr>
+      <p class="channel_area"><b>Channel : <a href="/{{ video.user.username }}/channel">{{ uploader_channel.channel_name }}</a></b></p>
+      
+      <b>Description:</b>
+      <p>{{ video.description }}</p>
+      
+      <!-- <br><br> -->
+      <hr>
+
+      <h3>Comments</h3>
+      
+      {% if form %}
+        {% if channel %}
+        <form action="/comment" method="POST">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <input type='hidden' name='video' value='{{ video.id }}' placeholder="comment">
+            <br>
+            <button type="submit" class="btn btn-primary">Post Comment!</button>
+        </form>
+        {% endif %}
+      {% endif %}
+      
+      {% for comment in comments %}
+            <p>
+            <strong>{{ comment.user }}</strong> posted on: <i>{{ comment.datetime }}</i> <br>
+            {{ comment.text }}
+            </p>
+      {% endfor %}
+		</div>
+		
+	{% endblock %}
