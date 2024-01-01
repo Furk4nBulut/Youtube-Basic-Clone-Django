@@ -97,7 +97,7 @@ class PlaylistVideo(models.Model):
     playlist_video_id = models.AutoField(primary_key=True)
     playlist = models.ForeignKey(Playlist, on_delete=models.CASCADE)
     video = models.ForeignKey(Video, on_delete=models.CASCADE)
-    order = models.PositiveIntegerField()
+    video_order = models.PositiveIntegerField()
 
 
 class Post(models.Model):
