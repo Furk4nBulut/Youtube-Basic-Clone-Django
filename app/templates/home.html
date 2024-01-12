@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+</head>
+<body>
+
+<h1>Users</h1>
+<ul>
+    {% for user in users %}
+        <li>{{ user.username }} - {{ user.full_name }} - {{ user.email }}</li>
+    {% endfor %}
+</ul>
+
+<h1>Channels</h1>
+<ul>
+    {% for channel in channels %}
+        <li>{{ channel.name }} - {{ channel.description }} - Owned by: {{ channel.owner.username }}</li>
+    {% endfor %}
+</ul>
+
+<h1>Videos</h1>
+<ul>
+    {% for video in videos %}
+        <li>{{ video.title }} - {{ video.description }} - Uploaded by: {{ video.channel.name }}</li>
+    {% endfor %}
+</ul>
+
+<h1>Comments</h1>
+<ul>
+    {% for comment in comments %}
+        <li>{{ comment.text }} - User: {{ comment.user.username }} - Video: {{ comment.video.title }}</li>
+    {% endfor %}
+</ul>
+
+<h1>Likes</h1>
+<ul>
+    {% for like in likes %}
+        <li>User: {{ like.user.username }} - Liked Video: {{ like.video.title }}</li>
+    {% endfor %}
+</ul>
+
+<h1>Dislikes</h1>
+<ul>
+    {% for dislike in dislikes %}
+        <li>User: {{ dislike.user.username }} - Disliked Video: {{ dislike.video.title }}</li>
+    {% endfor %}
+</ul>
+
+<h1>Liked Lists</h1>
+<ul>
+    {% for liked_list in liked_lists %}
+        <li>User: {{ liked_list.user.username }} - Liked Video: {{ liked_list.video.title }}</li>
+    {% endfor %}
+</ul>
+
+<h1>Channel Subscriptions</h1>
+<ul>
+    {% for subscription in channel_subscriptions %}
+        <li>User: {{ subscription.subscriber.username }} - Subscribed to Channel: {{ subscription.channel.name }}</li>
+    {% endfor %}
+</ul>
+
+<h1>Top Videos</h1>
+<ul>
+    {% for top_video in top_videos %}
+        <li>Video: {{ top_video.video.title }} - Views: {{ top_video.views }}</li>
+    {% endfor %}
+</ul>
+
+<h1>History</h1>
+<ul>
+    {% for item in history %}
+        <li>User: {{ item.user.username }} - Watched Video: {{ item.video.title }} - Watched Date: {{ item.watched_date }}</li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>

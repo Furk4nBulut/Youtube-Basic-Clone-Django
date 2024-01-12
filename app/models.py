@@ -1,85 +1,85 @@
 from django.db import models
 
-class AppUsers(models.Model):
+class Users(models.Model):
     user_id = models.AutoField(primary_key=True)
-    username = models.CharField(max_length=255)
+    username = models.CharField(max_length=255, unique=True)
     full_name = models.CharField(max_length=255)
-    email = models.CharField(max_length=255)
+    email = models.EmailField(unique=True)
     password = models.CharField(max_length=255)
 
-class AppChannel(models.Model):
+class Channel(models.Model):
     channel_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     description = models.TextField()
-    owner_id = models.ForeignKey(AppUsers, on_delete=models.CASCADE)
+    owner = models.ForeignKey(Users, on_delete=models.CASCADE)
 
-class AppVideo(models.Model):
+class Video(models.Model):
     video_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255)
     description = models.TextField()
-    upload_date = models.DateTimeField(default=models.DateTimeField)
-    channel_id = models.ForeignKey(AppChannel, on_delete=models.CASCADE)
-    views = models.IntegerField(default=0)
-    likes = models.IntegerField(default=0)
-    dislikes = models.IntegerField(default=0)
+    upload_date = models.DateTimeField(default=models.DateTimeField(auto_now=True), null=True)
+    channel = models.ForeignKey(Channel, on_delete=models.CASCADE)
+    views = models.IntegerField(default=0, null=True)
+    likes = models.IntegerField(default=0, null=True)
+    dislikes = models.IntegerField(default=0, null=True)
     thumbnail = models.CharField(max_length=100, null=True)
 
-class AppLikedList(models.Model):
+class LikedList(models.Model):
     liked_list_id = models.AutoField(primary_key=True)
-    user_id = models.ForeignKey(AppUsers, on_delete=models.CASCADE)
-    video_id = models.ForeignKey(AppVideo, on_delete=models.CASCADE)
+    user = models.ForeignKey(Users, on_delete=models.CASCADE)
+    video = models.ForeignKey(Video, on_delete=models.CASCADE)
 
-class AppChannelSubscription(models.Model):
+class ChannelSubscription(models.Model):
     channel_subscription_id = models.AutoField(primary_key=True)
-    subscriber_id = models.ForeignKey(AppUsers, on_delete=models.CASCADE)
-    channel_id = models.ForeignKey(AppChannel, on_delete=models.CASCADE)
+    subscriber = models.ForeignKey(Users, on_delete=models.CASCADE)
+    channel = models.ForeignKey(Channel, on_delete=models.CASCADE)
 
-class AppLike(models.Model):
+class Like(models.Model):
     like_id = models.AutoField(primary_key=True)
-    user_id = models.ForeignKey(AppUsers, on_delete=models.CASCADE)
-    video_id = models.ForeignKey(AppVideo, on_delete=models.CASCADE)
+    user = models.ForeignKey(Users, on_delete=models.CASCADE)
+    video = models.ForeignKey(Video, on_delete=models.CASCADE)
 
-class AppDislike(models.Model):
+class Dislike(models.Model):
     dislike_id = models.AutoField(primary_key=True)
-    user_id = models.ForeignKey(AppUsers, on_delete=models.CASCADE)
-    video_id = models.ForeignKey(AppVideo, on_delete=models.CASCADE)
+    user = models.ForeignKey(Users, on_delete=models.CASCADE)
+    video = models.ForeignKey(Video, on_delete=models.CASCADE)
 
-class AppComment(models.Model):
+class Comment(models.Model):
     comment_id = models.AutoField(primary_key=True)
-    user_id = models.ForeignKey(AppUsers, on_delete=models.CASCADE)
-    video_id = models.ForeignKey(AppVideo, on_delete=models.CASCADE)
+    user = models.ForeignKey(Users, on_delete=models.CASCADE)
+    video = models.ForeignKey(Video, on_delete=models.CASCADE)
     text = models.TextField()
-    pub_date = models.DateTimeField(default=models.DateTimeField)
+    pub_date = models.DateTimeField(default=models.DateTimeField(auto_now=True), null=True)
 
-class AppTopVideos(models.Model):
+class TopVideos(models.Model):
     top_videos_id = models.AutoField(primary_key=True)
-    video_id = models.ForeignKey(AppVideo, on_delete=models.CASCADE)
-    views = models.IntegerField(default=0)
+    video = models.OneToOneField(Video, on_delete=models.CASCADE, unique=True)
+    views = models.IntegerField(default=0, null=True)
 
-class AppHistory(models.Model):
+class History(models.Model):
     history_id = models.AutoField(primary_key=True)
-    user_id = models.ForeignKey(AppUsers, on_delete=models.CASCADE)
-    video_id = models.ForeignKey(AppVideo, on_delete=models.CASCADE)
-    watched_date = models.DateTimeField(default=models.DateTimeField)
+    user = models.ForeignKey(Users, on_delete=models.CASCADE)
+    video = models.ForeignKey(Video, on_delete=models.CASCADE)
+    watched_date = models.DateTimeField(default=models.DateTimeField(auto_now=True), null=True)
 
-class AppPremium(models.Model):
+class Premium(models.Model):
     premium_id = models.AutoField(primary_key=True)
-    user_id = models.ForeignKey(AppUsers, on_delete=models.CASCADE)
+    user = models.OneToOneField(Users, on_delete=models.CASCADE, unique=True)
     subscription_end_date = models.DateTimeField()
 
-class AppPlaylist(models.Model):
+class Playlist(models.Model):
     playlist_id = models.AutoField(primary_key=True)
-    user_id = models.ForeignKey(AppUsers, on_delete=models.CASCADE)
+    user = models.ForeignKey(Users, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
 
-class AppPlaylistVideo(models.Model):
+class PlaylistVideo(models.Model):
     playlist_video_id = models.AutoField(primary_key=True)
-    playlist_id = models.ForeignKey(AppPlaylist, on_delete=models.CASCADE)
-    video_id = models.ForeignKey(AppVideo, on_delete=models.CASCADE)
+    playlist = models.ForeignKey(Playlist, on_delete=models.CASCADE)
+    video = models.ForeignKey(Video, on_delete=models.CASCADE)
     video_order = models.IntegerField()
 
-class AppPost(models.Model):
+class Post(models.Model):
     post_id = models.AutoField(primary_key=True)
-    user_id = models.ForeignKey(AppUsers, on_delete=models.CASCADE)
+    user = models.ForeignKey(Users, on_delete=models.CASCADE)
     text = models.TextField()
-    pub_date = models.DateTimeField(default=models.DateTimeField)
+    pub_date = models.DateTimeField(default=models.DateTimeField(auto_now=True), null=True)
