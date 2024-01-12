@@ -1,110 +1,85 @@
 from django.db import models
 
-
-class Users(models.Model):
+class AppUsers(models.Model):
     user_id = models.AutoField(primary_key=True)
     username = models.CharField(max_length=255)
     full_name = models.CharField(max_length=255)
-    email = models.EmailField(max_length=255)
+    email = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
 
-    def __str__(self):
-        return self.username
-
-
-class Channel(models.Model):
+class AppChannel(models.Model):
     channel_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     description = models.TextField()
-    owner = models.OneToOneField(Users, on_delete=models.CASCADE, related_name='channel')
+    owner_id = models.ForeignKey(AppUsers, on_delete=models.CASCADE)
 
-
-class Video(models.Model):
+class AppVideo(models.Model):
     video_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255)
     description = models.TextField()
-    upload_date = models.DateTimeField(auto_now_add=True)
-    channel = models.ForeignKey(Channel, on_delete=models.CASCADE, related_name='videos')
-    views = models.PositiveIntegerField(default=0)
-    likes = models.PositiveIntegerField(default=0)
-    dislikes = models.PositiveIntegerField(default=0)
-    thumbnail = models.ImageField(upload_to='thumbnails/', blank=True, null=True)
+    upload_date = models.DateTimeField(default=models.DateTimeField)
+    channel_id = models.ForeignKey(AppChannel, on_delete=models.CASCADE)
+    views = models.IntegerField(default=0)
+    likes = models.IntegerField(default=0)
+    dislikes = models.IntegerField(default=0)
+    thumbnail = models.CharField(max_length=100, null=True)
 
-
-class LikedList(models.Model):
+class AppLikedList(models.Model):
     liked_list_id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(Users, on_delete=models.CASCADE)
-    video = models.ForeignKey(Video, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(AppUsers, on_delete=models.CASCADE)
+    video_id = models.ForeignKey(AppVideo, on_delete=models.CASCADE)
 
-
-class ChannelSubscription(models.Model):
+class AppChannelSubscription(models.Model):
     channel_subscription_id = models.AutoField(primary_key=True)
-    subscriber = models.ForeignKey(Users, on_delete=models.CASCADE)
-    channel = models.ForeignKey(Channel, on_delete=models.CASCADE, related_name='subscribers')
+    subscriber_id = models.ForeignKey(AppUsers, on_delete=models.CASCADE)
+    channel_id = models.ForeignKey(AppChannel, on_delete=models.CASCADE)
 
-
-class Like(models.Model):
+class AppLike(models.Model):
     like_id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(Users, on_delete=models.CASCADE)
-    video = models.ForeignKey(Video, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(AppUsers, on_delete=models.CASCADE)
+    video_id = models.ForeignKey(AppVideo, on_delete=models.CASCADE)
 
-
-class Dislike(models.Model):
+class AppDislike(models.Model):
     dislike_id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(Users, on_delete=models.CASCADE)
-    video = models.ForeignKey(Video, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(AppUsers, on_delete=models.CASCADE)
+    video_id = models.ForeignKey(AppVideo, on_delete=models.CASCADE)
 
-
-class Comment(models.Model):
+class AppComment(models.Model):
     comment_id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(Users, on_delete=models.CASCADE)
-    video = models.ForeignKey(Video, on_delete=models.CASCADE, related_name='comments')
+    user_id = models.ForeignKey(AppUsers, on_delete=models.CASCADE)
+    video_id = models.ForeignKey(AppVideo, on_delete=models.CASCADE)
     text = models.TextField()
-    pub_date = models.DateTimeField(auto_now_add=True)
+    pub_date = models.DateTimeField(default=models.DateTimeField)
 
-
-class TopVideos(models.Model):
+class AppTopVideos(models.Model):
     top_videos_id = models.AutoField(primary_key=True)
-    video = models.OneToOneField(Video, on_delete=models.CASCADE)
-    views = models.PositiveIntegerField(default=0)
+    video_id = models.ForeignKey(AppVideo, on_delete=models.CASCADE)
+    views = models.IntegerField(default=0)
 
-    @staticmethod
-    def top_videos(limit=10):
-        return TopVideos.objects.order_by('-views')[:limit]
-
-
-class History(models.Model):
+class AppHistory(models.Model):
     history_id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(Users, on_delete=models.CASCADE)
-    video = models.ForeignKey(Video, on_delete=models.CASCADE)
-    watched_date = models.DateTimeField(auto_now_add=True)
+    user_id = models.ForeignKey(AppUsers, on_delete=models.CASCADE)
+    video_id = models.ForeignKey(AppVideo, on_delete=models.CASCADE)
+    watched_date = models.DateTimeField(default=models.DateTimeField)
 
-
-class Premium(models.Model):
+class AppPremium(models.Model):
     premium_id = models.AutoField(primary_key=True)
-    user = models.OneToOneField(Users, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(AppUsers, on_delete=models.CASCADE)
     subscription_end_date = models.DateTimeField()
 
-
-class Playlist(models.Model):
+class AppPlaylist(models.Model):
     playlist_id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(Users, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(AppUsers, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
-    videos = models.ManyToManyField(Video, through='PlaylistVideo')
 
-
-class PlaylistVideo(models.Model):
+class AppPlaylistVideo(models.Model):
     playlist_video_id = models.AutoField(primary_key=True)
-    playlist = models.ForeignKey(Playlist, on_delete=models.CASCADE)
-    video = models.ForeignKey(Video, on_delete=models.CASCADE)
-    video_order = models.PositiveIntegerField()
+    playlist_id = models.ForeignKey(AppPlaylist, on_delete=models.CASCADE)
+    video_id = models.ForeignKey(AppVideo, on_delete=models.CASCADE)
+    video_order = models.IntegerField()
 
-
-class Post(models.Model):
+class AppPost(models.Model):
     post_id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(Users, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(AppUsers, on_delete=models.CASCADE)
     text = models.TextField()
-    pub_date = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.user.username} - {self.pub_date}"
+    pub_date = models.DateTimeField(default=models.DateTimeField)

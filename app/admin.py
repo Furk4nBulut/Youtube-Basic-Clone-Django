@@ -1,78 +1,73 @@
 from django.contrib import admin
-from .models import Users, Channel, Video, LikedList, ChannelSubscription, Like, Dislike, Comment, TopVideos
+from .models import (
+    AppUsers,
+    AppChannel,
+    AppVideo,
+    AppLikedList,
+    AppChannelSubscription,
+    AppLike,
+    AppDislike,
+    AppComment,
+    AppTopVideos,
+    AppHistory,
+    AppPremium,
+    AppPlaylist,
+    AppPlaylistVideo,
+    AppPost,
+)
 
-# Register your models here.
+@admin.register(AppUsers)
+class AppUsersAdmin(admin.ModelAdmin):
+    list_display = ['user_id', 'username', 'full_name', 'email']
 
-admin.site.register(Users)
-admin.site.register(Channel)
-admin.site.register(Video)
-admin.site.register(LikedList)
-admin.site.register(ChannelSubscription)
-admin.site.register(Like)
-admin.site.register(Dislike)
-admin.site.register(Comment)
-admin.site.register(TopVideos)
+@admin.register(AppChannel)
+class AppChannelAdmin(admin.ModelAdmin):
+    list_display = ['channel_id', 'name', 'description', 'owner_id']
 
-class UsersAdmin(admin.ModelAdmin):
-    list_display = ('username', 'full_name', 'email', 'password')
-    search_fields = ('username', 'full_name', 'email', 'password')
-    list_filter = ('username', 'full_name', 'email', 'password')
-    ordering = ('username', 'full_name', 'email', 'password')
-    filter_horizontal = ()
-    fieldsets = ()
-class ChannelAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description', 'owner')
-    search_fields = ('name', 'description', 'owner')
-    list_filter = ('name', 'description', 'owner')
-    ordering = ('name', 'description', 'owner')
-    filter_horizontal = ()
-    fieldsets = ()
-class VideoAdmin(admin.ModelAdmin):
-    list_display = ('title', 'description', 'upload_date', 'channel', 'views', 'likes', 'dislikes', 'thumbnail')
-    search_fields = ('title', 'description', 'upload_date', 'channel', 'views', 'likes', 'dislikes', 'thumbnail')
-    list_filter = ('title', 'description', 'upload_date', 'channel', 'views', 'likes', 'dislikes', 'thumbnail')
-    ordering = ('title', 'description', 'upload_date', 'channel', 'views', 'likes', 'dislikes', 'thumbnail')
-    filter_horizontal = ()
-    fieldsets = ()
-class LikedListAdmin(admin.ModelAdmin):
-    list_display = ('user', 'video')
-    search_fields = ('user', 'video')
-    list_filter = ('user', 'video')
-    ordering = ('user', 'video')
-    filter_horizontal = ()
-    fieldsets = ()
-class ChannelSubscriptionAdmin(admin.ModelAdmin):
-    list_display = ('subscriber', 'channel')
-    search_fields = ('subscriber', 'channel')
-    list_filter = ('subscriber', 'channel')
-    ordering = ('subscriber', 'channel')
-    filter_horizontal = ()
-    fieldsets = ()
-class LikeAdmin(admin.ModelAdmin):
-    list_display = ('user', 'video')
-    search_fields = ('user', 'video')
-    list_filter = ('user', 'video')
-    ordering = ('user', 'video')
-    filter_horizontal = ()
-    fieldsets = ()
-class DislikeAdmin(admin.ModelAdmin):
-    list_display = ('user', 'video')
-    search_fields = ('user', 'video')
-    list_filter = ('user', 'video')
-    ordering = ('user', 'video')
-    filter_horizontal = ()
-    fieldsets = ()
-class CommentAdmin(admin.ModelAdmin):
-    list_display = ('user', 'video', 'text', 'pub_date')
-    search_fields = ('user', 'video', 'text', 'pub_date')
-    list_filter = ('user', 'video', 'text', 'pub_date')
-    ordering = ('user', 'video', 'text', 'pub_date')
-    filter_horizontal = ()
-    fieldsets = ()
-class TopVideosAdmin(admin.ModelAdmin):
-    list_display = ('video', 'views')
-    search_fields = ('video', 'views')
-    list_filter = ('video', 'views')
-    ordering = ('video', 'views')
-    filter_horizontal = ()
-    fieldsets = ()
+@admin.register(AppVideo)
+class AppVideoAdmin(admin.ModelAdmin):
+    list_display = ['video_id', 'title', 'channel_id', 'upload_date', 'views', 'likes', 'dislikes']
+
+@admin.register(AppLikedList)
+class AppLikedListAdmin(admin.ModelAdmin):
+    list_display = ['liked_list_id', 'user_id', 'video_id']
+
+@admin.register(AppChannelSubscription)
+class AppChannelSubscriptionAdmin(admin.ModelAdmin):
+    list_display = ['channel_subscription_id', 'subscriber_id', 'channel_id']
+
+@admin.register(AppLike)
+class AppLikeAdmin(admin.ModelAdmin):
+    list_display = ['like_id', 'user_id', 'video_id']
+
+@admin.register(AppDislike)
+class AppDislikeAdmin(admin.ModelAdmin):
+    list_display = ['dislike_id', 'user_id', 'video_id']
+
+@admin.register(AppComment)
+class AppCommentAdmin(admin.ModelAdmin):
+    list_display = ['comment_id', 'user_id', 'video_id', 'text', 'pub_date']
+
+@admin.register(AppTopVideos)
+class AppTopVideosAdmin(admin.ModelAdmin):
+    list_display = ['top_videos_id', 'video_id', 'views']
+
+@admin.register(AppHistory)
+class AppHistoryAdmin(admin.ModelAdmin):
+    list_display = ['history_id', 'user_id', 'video_id', 'watched_date']
+
+@admin.register(AppPremium)
+class AppPremiumAdmin(admin.ModelAdmin):
+    list_display = ['premium_id', 'user_id', 'subscription_end_date']
+
+@admin.register(AppPlaylist)
+class AppPlaylistAdmin(admin.ModelAdmin):
+    list_display = ['playlist_id', 'user_id', 'name']
+
+@admin.register(AppPlaylistVideo)
+class AppPlaylistVideoAdmin(admin.ModelAdmin):
+    list_display = ['playlist_video_id', 'playlist_id', 'video_id', 'video_order']
+
+@admin.register(AppPost)
+class AppPostAdmin(admin.ModelAdmin):
+    list_display = ['post_id', 'user_id', 'text', 'pub_date']
