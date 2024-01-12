@@ -1,82 +1,226 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
+    <title>YouTube Clone</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #fff;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.logo {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.search-bar {
+    display: flex;
+}
+
+.search-bar input {
+    padding: 5px;
+    margin-right: 5px;
+}
+
+.search-bar button {
+    padding: 5px 10px;
+    background-color: #f00;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.user-menu {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.user-icon {
+    margin-right: 10px;
+}
+
+.user-dropdown {
+    display: none;
+    position: absolute;
+    top: 30px;
+    right: 0;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.user-menu:hover .user-dropdown {
+    display: block;
+}
+
+.user-dropdown ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.user-dropdown li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.video-section {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.video {
+    width: 300px;
+    margin: 10px;
+}
+
+.video img {
+    width: 100%;
+    height: auto;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+</style>
 <body>
 
-<h1>Users</h1>
-<ul>
-    {% for user in users %}
-        <li>{{ user.username }} - {{ user.full_name }} - {{ user.email }}</li>
-    {% endfor %}
-</ul>
+<header>
+    <div class="logo">YouTube</div>
+    <div class="search-bar">
+        <span>Furkan Bulut 210316011 - Mine Altuğ 200316021 - Furkan Yamak 200316027</span>
+    </div>
+    <div class="user-menu">
+        <div class="user-icon">Users</div>
+        <div class="user-dropdown">
+            <ul>
+                <li>My Channel</li>
+                <li>History</li>
+                <li>Settings</li>
+            </ul>
+        </div>
+    </div>
+</header>
 
-<h1>Channels</h1>
-<ul>
-    {% for channel in channels %}
-        <li>{{ channel.name }} - {{ channel.description }} - Owned by: {{ channel.owner.username }}</li>
-    {% endfor %}
-</ul>
+<main>
+    <section class="video-section">
+        <!-- Sample Video Thumbnail and Title -->
+        <div class="video">
+            <img  style="height: 300px;width: 1500px;" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.coderepublics.com%2Ftools%2FImages%2Fyoutube-thumbnail-size.png&f=1&nofb=1&ipt=3e2bb57d4fbd33f45aeeac18e20b36c8ab0be3f2ff33b1a202b06a4d83c44543&ipo=images" alt="Video Thumbnail">
+            <h3>Video Title</h3>
+        </div>
 
-<h1>Videos</h1>
-<ul>
-    {% for video in videos %}
-        <li>{{ video.title }} - {{ video.description }} - Uploaded by: {{ video.channel.name }}</li>
-    {% endfor %}
-</ul>
+        <!-- Add more videos as needed -->
+    </section>
+ <section class="video-section">
+        <!-- Display Users -->
 
-<h1>Comments</h1>
-<ul>
-    {% for comment in comments %}
-        <li>{{ comment.text }} - User: {{ comment.user.username }} - Video: {{ comment.video.title }}</li>
-    {% endfor %}
-</ul>
+        <h1>Users</h1>
+        <ul>
+            {% for user in users %}
+                <li>{{ user.username }} - {{ user.full_name }} - {{ user.email }}</li>
+            {% endfor %}
+        </ul>
 
-<h1>Likes</h1>
-<ul>
-    {% for like in likes %}
-        <li>User: {{ like.user.username }} - Liked Video: {{ like.video.title }}</li>
-    {% endfor %}
-</ul>
+        <!-- Display Channels -->
+        <h1>Channels</h1>
+        <ul>
+            {% for channel in channels %}
+                <li>{{ channel.name }} - {{ channel.description }} - Owned by: {{ channel.owner.username }}</li>
+            {% endfor %}
+        </ul>
 
-<h1>Dislikes</h1>
-<ul>
-    {% for dislike in dislikes %}
-        <li>User: {{ dislike.user.username }} - Disliked Video: {{ dislike.video.title }}</li>
-    {% endfor %}
-</ul>
+        <!-- Display Videos -->
+        <h1>Videos</h1>
+        <ul>
+            {% for video in videos %}
+                <li>{{ video.title }} - {{ video.description }} - Uploaded by: {{ video.channel.name }}</li>
+            {% endfor %}
+        </ul>
 
-<h1>Liked Lists</h1>
-<ul>
-    {% for liked_list in liked_lists %}
-        <li>User: {{ liked_list.user.username }} - Liked Video: {{ liked_list.video.title }}</li>
-    {% endfor %}
-</ul>
+        <!-- Display Comments -->
+        <h1>Comments</h1>
+        <ul>
+            {% for comment in comments %}
+                <li>{{ comment.text }} - User: {{ comment.user.username }} - Video: {{ comment.video.title }}</li>
+            {% endfor %}
+        </ul>
 
-<h1>Channel Subscriptions</h1>
-<ul>
-    {% for subscription in channel_subscriptions %}
-        <li>User: {{ subscription.subscriber.username }} - Subscribed to Channel: {{ subscription.channel.name }}</li>
-    {% endfor %}
-</ul>
+        <!-- Display Likes -->
+        <h1>Likes</h1>
+        <ul>
+            {% for like in likes %}
+                <li>User: {{ like.user.username }} - Liked Video: {{ like.video.title }}</li>
+            {% endfor %}
+        </ul>
 
-<h1>Top Videos</h1>
-<ul>
-    {% for top_video in top_videos %}
-        <li>Video: {{ top_video.video.title }} - Views: {{ top_video.views }}</li>
-    {% endfor %}
-</ul>
+        <!-- Display Dislikes -->
+        <h1>Dislikes</h1>
+        <ul>
+            {% for dislike in dislikes %}
+                <li>User: {{ dislike.user.username }} - Disliked Video: {{ dislike.video.title }}</li>
+            {% endfor %}
+        </ul>
 
-<h1>History</h1>
-<ul>
-    {% for item in history %}
-        <li>User: {{ item.user.username }} - Watched Video: {{ item.video.title }} - Watched Date: {{ item.watched_date }}</li>
-    {% endfor %}
-</ul>
+        <!-- Display Liked Lists -->
+        <h1>Liked Lists</h1>
+        <ul>
+            {% for liked_list in liked_lists %}
+                <li>User: {{ liked_list.user.username }} - Liked Video: {{ liked_list.video.title }}</li>
+            {% endfor %}
+        </ul>
+
+        <!-- Display Channel Subscriptions -->
+        <h1>Channel Subscriptions</h1>
+        <ul>
+            {% for subscription in channel_subscriptions %}
+                <li>User: {{ subscription.subscriber.username }} - Subscribed to Channel: {{ subscription.channel.name }}</li>
+            {% endfor %}
+        </ul>
+
+        <!-- Display Top Videos -->
+        <h1>Top Videos</h1>
+        <ul>
+            {% for top_video in top_videos %}
+                <li>Video: {{ top_video.video.title }} - Views: {{ top_video.views }}</li>
+            {% endfor %}
+        </ul>
+
+        <!-- Display History -->
+        <h1>History</h1>
+        <ul>
+            {% for item in history %}
+                <li>User: {{ item.user.username }} - Watched Video: {{ item.video.title }} - Watched Date: {{ item.watched_date }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2024 YouTube Clone for Manisa Celal Bayar University Database Management Systems Project | Developed By Furkan Bulut</p>
+</footer>
 
 </body>
 </html>
