@@ -1,3 +1,4 @@
+MCBU Database Management Systems Project.
 To run this project you need to fallow this steps:
 
 open the project and contuine the project file.
@@ -13,4 +14,4 @@ To run this project you need to write python manage.py runserver on your comand 
 
 
 
-Everything should be ready after this fallowing stepts
+Everything should be ready after this following stepts
