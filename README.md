@@ -1,17 +1,61 @@
-MCBU Database Management Systems Project.
-To run this project you need to fallow this steps:
+# MCBU Database Management Systems Project
 
-open the project and contuine the project file.
-You need to some libraries for Django framework and database connection so create a virtaul env and install the requirements.txt libraries
-To create virtual env: python -m venv venv_name
-After creating a venv you need to install requirements.txt. The quick way for this go to the directory of requirements.txt and run this code in your terminal : pip install -r requirement.txt
+## Project Overview
+
+This project is a database management assignment, designed as a simple YouTube database. It aims to illustrate the fundamental principles of database design and management by creating and managing a basic version of a YouTube-like database system.
+
+## Additional Information
+
+For detailed information about the project, including the full project description and the problem statement, please refer to the following documents:
+
+- **[Report.pdf](path/to/Report.pdf):** Provides a comprehensive explanation of the project details.
+- **[Assignment.pdf](path/to/Assignment.pdf):** Contains a detailed description of the problem and assignment requirements.
+
+## Setup Instructions
+
+To run this project, please follow these steps:
+
+1. **Open the Project:**
+   - Navigate to the project directory on your local machine.
+
+2. **Create a Virtual Environment:**
+   - Create a virtual environment using the following command:
+     ```bash
+     python -m venv venv_name
+     ```
+   - Replace `venv_name` with your preferred name for the virtual environment.
+
+3. **Activate the Virtual Environment:**
+   - On Windows:
+     ```bash
+     venv_name\Scripts\activate
+     ```
+   - On macOS/Linux:
+     ```bash
+     source venv_name/bin/activate
+     ```
+
+4. **Install Required Libraries:**
+   - Navigate to the directory containing the `requirements.txt` file.
+   - Install the required libraries by running:
+     ```bash
+     pip install -r requirements.txt
+     ```
+
+5. **Run the Project:**
+   - Ensure you are in the same directory as the `manage.py` file.
+   - Start the Django development server using:
+     ```bash
+     python manage.py runserver
+     ```
+
+   - It is recommended to use the virtual environment for running the server.
+
+After completing these steps, everything should be set up and ready to go!
 
 
-You need to be same directory with your project manage.py file.
+## Contributors
 
-To run this project you need to write python manage.py runserver on your comand prompt. ( Using python venvs recommended and needed.)
-
-
-
-
-Everything should be ready after this following stepts
+- **Furkan YAMAK** 
+- **Furkan BULUT** 
+- **Mine ALTUĞ** 
