@@ -8,8 +8,8 @@ This project is a database management assignment, designed as a simple YouTube d
 
 For detailed information about the project, including the full project description and the problem statement, please refer to the following documents:
 
-- **[Report.pdf](path/to/Report.pdf):** Provides a comprehensive explanation of the project details.
-- **[Assignment.pdf](path/to/Assignment.pdf):** Contains a detailed description of the problem and assignment requirements.
+- **[Report.pdf](Report.pdf):** Provides a comprehensive explanation of the project details.
+- **[Assignment.pdf](Assignment.pdf):** Contains a detailed description of the problem and assignment requirements.
 
 ## Setup Instructions
 
